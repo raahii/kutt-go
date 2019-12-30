@@ -1,5 +1,13 @@
-Kutt.it API Client for Go
---
+<div align="center">
+  <img width="150" src="https://imgur.com/dk0StSP.png" />
+</div>
+<h1 align="center">kutt-go</h1>
+<p align="center">
+  <a href="https://kutt.it">Kutt.it</a> API Client for Go
+</p>
+<div align="center"></div>
+
+
 
 [Kutt.it](https://kutt.it/) is a **Modern Open Source URL shortener.** 
 
@@ -11,9 +19,7 @@ Kutt.it API Client for Go
 
 
 
-This is a a Go wrapper for [the API](https://github.com/thedevs-network/kutt). 
-
-To get shorter url,  you need to signup at [Kutt.it](https://kutt.it/login) and obtain API key from settings.
+This is a Go wrapper for [the API](https://github.com/thedevs-network/kutt). To get shorter url, you need to signup at [Kutt.it](https://kutt.it/login) and obtain API key from settings.
 
 ```
 $ go get -u github.com/raahii/kutt-go
