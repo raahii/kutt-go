@@ -46,8 +46,6 @@ func (cli *Client) Submit(target string, opts ...SubmitOption) (*URL, error) {
 		opt(payload)
 	}
 
-	fmt.Printf("%#v\n", payload)
-
 	jsonBytes, err := json.Marshal(payload)
 	if err != nil {
 		return nil, fmt.Errorf("marshal json: %w", err)
