@@ -7,37 +7,46 @@ import (
 	"strings"
 )
 
-type SubmitInput struct {
-	URL       string
-	CustomURL string
-	Password  string
-	Reuse     bool
+type SubmitParams struct {
+	URL       string  `json:"target"`
+	CustomURL *string `json:"customurl"`
+	Password  *string `json:"password"`
+	Reuse     *bool   `json:"reuse"`
 }
 
-func (cli *Client) Submit(s *SubmitInput) (*URL, error) {
+type SubmitOption func(*SubmitParams)
+
+func WithCustomURL(v string) SubmitOption {
+	return func(p *SubmitParams) {
+		p.CustomURL = &v
+	}
+}
+
+func WithPassword(v string) SubmitOption {
+	return func(p *SubmitParams) {
+		p.Password = &v
+	}
+}
+
+func WithReuse(v bool) SubmitOption {
+	return func(p *SubmitParams) {
+		p.Reuse = &v
+	}
+}
+
+func (cli *Client) Submit(target string, opts ...SubmitOption) (*URL, error) {
 	path := "/api/url/submit"
 	reqURL := cli.BaseURL + path
 
-	payload := struct {
-		URL       *string `json:"target"`
-		CustomURL *string `json:"customurl,omitempty"`
-		Password  *string `json:"password,omitempty"`
-		Reuse     *bool   `json:"reuse,omitempty"`
-	}{
-		URL: &s.URL,
+	payload := &SubmitParams{
+		URL: target,
 	}
 
-	if s.CustomURL != "" {
-		payload.CustomURL = &s.CustomURL
+	for _, opt := range opts {
+		opt(payload)
 	}
 
-	if s.Password != "" {
-		payload.Password = &s.Password
-	}
-
-	if s.Reuse {
-		payload.Reuse = &s.Reuse
-	}
+	fmt.Printf("%#v\n", payload)
 
 	jsonBytes, err := json.Marshal(payload)
 	if err != nil {

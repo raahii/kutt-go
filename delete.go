@@ -7,24 +7,29 @@ import (
 	"strings"
 )
 
-type DeleteInput struct {
-	ID     string
-	Domain string
+type DeleteParams struct {
+	ID     string  `json:"id"`
+	Domain *string `json:"domain"`
 }
 
-func (cli *Client) Delete(s *DeleteInput) error {
+type DeleteOption func(*DeleteParams)
+
+func WithDomain(v string) DeleteOption {
+	return func(p *DeleteParams) {
+		p.Domain = &v
+	}
+}
+
+func (cli *Client) Delete(ID string, opts ...DeleteOption) error {
 	path := "/api/url/deleteurl"
 	reqURL := cli.BaseURL + path
 
-	payload := struct {
-		ID     *string `json:"id"`
-		Domain *string `json:"domain,omitempty"`
-	}{
-		ID: &s.ID,
+	payload := &DeleteParams{
+		ID: ID,
 	}
 
-	if s.Domain != "" {
-		payload.Domain = &s.Domain
+	for _, opt := range opts {
+		opt(payload)
 	}
 
 	jsonBytes, err := json.Marshal(payload)

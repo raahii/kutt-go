@@ -21,15 +21,14 @@ func main() {
 	}
 	cli := kutt.NewClient(key)
 
-	// ------------------
 	// create shorter url
-	// ------------------
-	URL, err := cli.Submit(&kutt.SubmitInput{
-		URL: "https://github.com/raahii/kutt-go",
-		// CustomURL: "kutt-go",
-		// Password:  "foobar",
-		// Reuse: true,
-	})
+	target := "https://github.com/raahii/kutt-go"
+	URL, err := cli.Submit(
+		target,
+		// kutt.WithCustomURL("kutt-go"),
+		// kutt.WithPassword("foobar"),
+		// kutt.WithReuse(true),
+	)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -37,9 +36,7 @@ func main() {
 	fmt.Println(">> created")
 	printURL(URL)
 
-	// -------------------
 	// list registerd urls
-	// -------------------
 	URLs, err := cli.List()
 	if err != nil {
 		log.Fatal(err)
@@ -50,13 +47,11 @@ func main() {
 		printURL(u)
 	}
 
-	// -------------------
 	// delete url
-	// -------------------
-	err = cli.Delete(&kutt.DeleteInput{
-		ID: URL.ID,
-		// Domain: "xxx",
-	})
+	err = cli.Delete(
+		URL.ID,
+		// kutt.WithDomain("xxx"),
+	)
 	if err != nil {
 		log.Fatal(err)
 	}
