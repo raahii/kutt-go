@@ -17,19 +17,64 @@
 
 
 
-This is a Go wrapper for [the API](https://github.com/thedevs-network/kutt) and CLI tool. To get shorter url, you need to signup at [Kutt.it](https://kutt.it/login) and obtain API key from settings.
+This repo contains a CLI and golang package for the service.
 
+
+
+## CLI
+
+### Installation
+
+```shell
+$ go install github.com/raahii/kutt-go/cmd/kutt@latest
 ```
+
+
+
+### Usage
+
+```sh
+$ kutt register <your api key>
+$ kutt submit <url to shorten>
+https://kutt.it/ztPDmK
+```
+
+```sh
+❯ kutt --help
+CLI tool for Kutt.it (URL Shortener)
+
+Usage:
+  kutt [command]
+
+Available Commands:
+  apikey      Register your api key to cli
+  delete      Delete a shorted link (Give me url id or url shorted)
+  list        List of last 5 URL objects.
+  submit      Submit a new short URL
+  help        Help about any command
+
+Flags:
+  -k, --apikey string   api key for Kutt.it
+  -h, --help            help for kutt
+
+Use "kutt [command] --help" for more information about a command.
+```
+
+
+
+## Go Package
+
+### Installation
+
+```sh
 $ go get -u github.com/raahii/kutt-go
 ```
 
 
 
-## Usage
+### Example
 
-This is a example to get shorter url. The full example is in `_example` directory. 
-
-For API details, please refer [official repository](https://github.com/thedevs-network/kutt#api).
+This is a example to get shorter url. See also codes in `_example` directory. 
 
 ```go
 package main
@@ -44,7 +89,7 @@ import (
 func main() {
 	cli := kutt.NewClient("<api key>")
 
-	// create shorter url for this repository
+	// create a short url
 	target := "https://github.com/raahii/kutt-go"
 	URL, err := cli.Submit(
 		target,
@@ -74,36 +119,12 @@ type URL struct {
 }
 ```
 
-## CLI
-
-```
-$ go get -u github.com/raahii/kutt-go/cmd/kutt
-```
 
 
+## Reference
 
-You can register your API key to CLI with `kutt apikey <key>`.
-
-```
-❯ kutt --help
-CLI tool for Kutt.it (URL Shortener)
-
-Usage:
-  kutt [command]
-
-Available Commands:
-  apikey      Register your api key to cli
-  delete      Delete a shorted link (Give me url id or url shorted)
-  list        List of last 5 URL objects.
-  submit      Submit a new short URL
-  help        Help about any command
-
-Flags:
-  -k, --apikey string   api key for Kutt.it
-  -h, --help            help for kutt
-
-Use "kutt [command] --help" for more information about a command.
-```
+- [thedevs-network/kutt: Free Modern URL Shortener.](https://github.com/thedevs-network/kutt#api)
+- [Kutt API v2 documentation](https://docs.kutt.it/)
 
 
 
